@@ -3,7 +3,7 @@
     "name": "Flappy-monkey",
     "slug": "Flappy-monkey",
     "version": "1.0.0",
-    "orientation": "portrait",
+    "orientation": "landscape",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
