@@ -36,7 +36,7 @@ export default (world, color, pos, size) => {
   )
   Matter.World.add(world, initialFloor)
   return {
-    body: initialMoonkey,
+    body: initialFloor,
     color,
     pos,
     renderer:<Floor/>

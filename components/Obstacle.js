@@ -12,14 +12,15 @@ const Obstacle = props => {
     const color = props.color
 
     return (
-        <Image 
+        <Image   
             style={{
-                borderWidth:1,
+                borderWidth:1,  
                 position:'absolute',
                 left:xBody,
                 top:yBody,
-                width:widthBody,    
-                height:heightBody*1.1}
+                //width:widthBody,    
+                height:heightBody
+              }
             }
             source={require('../assets/tree.png')}
           />

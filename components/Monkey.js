@@ -1,6 +1,6 @@
 import Matter from 'matter-js'
 import React from 'react'
-import { Image } from 'react-native'
+import { Image, View } from 'react-native'
 
 const Monkey = props => {
     const widthBody = props.body.bounds.max.x - props.body.bounds.min.x
@@ -14,6 +14,7 @@ const Monkey = props => {
     return (
         <Image 
             style={{
+                borderWith:1,
                 position:'absolute',
                 left:xBody,
                 top:yBody,
@@ -30,7 +31,7 @@ export default (world, color, pos, size) => {
     pos.y,
     size.width,
     size.height,
-    {label: 'Moonkey'}
+    {label: 'Monkey'}
   )
   
   Matter.World.add(world, initialMonkey)
