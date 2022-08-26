@@ -1,6 +1,10 @@
 import Matter from 'matter-js'
 import React from 'react'
 import { Image, View } from 'react-native'
+import { useSelector, useDispatch } from 'react-redux';
+import { selectMode } from '../slices/gameSlice';
+import { setMode } from '../slices/gameSlice'; 
+
 
 const Monkey = props => {
     const widthBody = props.body.bounds.max.x - props.body.bounds.min.x
@@ -8,10 +12,12 @@ const Monkey = props => {
 
     const xBody = props.body.position.x - widthBody / 2
     const yBody = props.body.position.y - heightBody / 2
+    const mode = useSelector(selectMode)
+    const dispatch = useDispatch()
 
     const color = props.color
 
-    return (
+    return (    
         <Image 
             style={{
                 borderWith:1,
@@ -21,7 +27,7 @@ const Monkey = props => {
                 width:widthBody,    
                 height:heightBody}}
                 source={require('../assets/monkey.png')}
-          />
+          /> 
     )
 }
 
