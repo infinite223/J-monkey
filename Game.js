@@ -5,11 +5,12 @@ import { GameEngine } from 'react-native-game-engine';
 import entities from './entities';
 import Physics from './physics';
 import { Audio } from 'expo-av';
-import { gameModes } from './utils/constants';
 import { useSelector, useDispatch } from 'react-redux';
 import { selectMode } from './slices/gameSlice';
 import { AntDesign } from 'react-native-vector-icons';
-import { setPointsInMode } from './slices/gameSlice';
+import { setPointsInMode, setSelectMode, setSavedModes } from './slices/gameSlice';
+import { style } from './styles/gameStyle';
+import AsyncStorage  from '@react-native-async-storage/async-storage'
 
 async function playSoundPress() {
   const { sound } = await Audio.Sound.createAsync(
@@ -29,6 +30,15 @@ export default function Game() {
 
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
+  const storeModes = async () => {
+    try {
+      const jsonValue = JSON.stringify(modes)
+      await AsyncStorage.setItem('@storage_Key', jsonValue)
+    } catch (e) {
+      console.log(e, "error")
+    }
+  }
+
   const fadeIn = () => {
     Animated.timing(fadeAnim, {
       toValue: 1,
@@ -47,58 +57,38 @@ export default function Game() {
   };
 
   useEffect(()=>{
+    const getModes = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem('@storage_Key')
+        if(jsonValue != null){
+          dispatch(setSavedModes(JSON.parse(jsonValue)))
+          console.log(JSON.parse(jsonValue))
+        }
+      } catch(e) {
+        // error reading value
+      }
+    }
+    getModes()
     setRunning(false)
     fadeIn()
   }, [])
 
   useEffect(()=> {
-    async function playSound() {
-      const { sound } = await Audio.Sound.createAsync(
-         require('./assets/audio/rain.mp3')
-      );
+    console.log(modes)
+    storeModes()
+  },[setPointsInMode()])
 
-      if(running){
-        await sound.playAsync()
-      }
-      else {
-        await sound.pauseAsync();
-      }
-    }
-
-    playSound()
-  }, [running])
 
   return (
-    <ImageBackground style={{
-        backgroundColor: '#ccc',
-        resizeMode: 'stretch', 
-        flex: 1,
-        position: 'absolute',
-        width: '100%',
-        height: '100%',
-        justifyContent: 'center',}}
-          source={require('./assets/background.jpg')}
+    <ImageBackground 
+        style={style.imageBackground}
+        source={require('./assets/background.jpg')}
     > 
-      {running && <Text style={{  
-          position:'absolute',
-          top:15,
-          left:15,
-          zIndex:2,
-          backgroundColor:'rgba(8, 8, 8, .5)', 
-          paddingHorizontal:15,
-          borderRadius:10,
-          paddingVertical:5,
-          textAlign:'center',
-          color:"white", 
-          fontSize:25}
-        }>
-          {points}
-        </Text>}
+      {running && <Text style={style.scoreInGameText}> {points} </Text>}
       <GameEngine
         ref={(ref)=>setGameEngine(ref)}
         systems={[Physics]}
-        entities={entities()}
-        
+        entities={entities(modes[selectModeNumber])}   
         running={running}
         onEvent={(e)=>{
           switch(e.type) {
@@ -119,25 +109,22 @@ export default function Game() {
           position:'absolute', top:0, left:0, right:0, bottom:0
         }}
       >
-
       </GameEngine>
-          <Animated.View style={{flex:1, justifyContent:"center", flexDirection:'row', alignItems:"center", backgroundColor:"rgba(18, 18, 18,.6)", borderRadius:0
-            ,opacity: fadeAnim, zIndex:running?-1:2
-          }}>
-            <TouchableOpacity onPress={()=>{ playSoundPress(); selectModeNumber>0&&setSelectModeNumber(selectModeNumber-1)}}>
+          <Animated.View style={[style.mainContainer, {opacity: fadeAnim, zIndex:running?-1:2}]}>
+            <TouchableOpacity onPress={()=>{ playSoundPress(); selectModeNumber>0&&(setSelectModeNumber(selectModeNumber-1),dispatch(setSelectMode(selectModeNumber)))}}>
                 <AntDesign name='left' size={42} color="white" style={{marginRight:40}}/>    
             </TouchableOpacity>
             <View style={{justifyContent:"center", alignItems:"center"}}>
-                <TouchableOpacity onPress={()=>{ fadeOut(), setPoints(0); setRunning(true); gameEngine.swap(entities())}}>
-                    <Text style={{color:"white", fontSize:40, letterSpacing:5, fontWeight:'bold', fontFamily: 'sans-serif-condensed'}}>Start game</Text>
+                <TouchableOpacity onPress={()=>{ fadeOut(), setPoints(0); setRunning(true); gameEngine.swap(entities(modes[selectModeNumber]))}}>
+                    <Text style={style.startGameText}>Start game</Text>
                 </TouchableOpacity>
-                <Text style={{color:modes[selectModeNumber].color, fontWeight:'bold', fontSize:22, textAlign:'center', letterSpacing:3, fontFamily: 'sans-serif-condensed'}}>{modes[selectModeNumber].level} level</Text>
+                    <Text style={[style.levelText, {color:modes[selectModeNumber].color}]}>{modes[selectModeNumber].level} level</Text>
                 <View style={{alignItems:'center', flexDirection:'row'}}>
                 <Text style={{color:"white", textAlign:'center'}}>Best score</Text>
-                <Text style={{color:modes[selectModeNumber].color, fontSize:25, fontWeight:'bold', marginLeft:10}}>{modes[selectModeNumber].points}</Text>
+                <Text style={[style.scoreText, {color:modes[selectModeNumber].color}]}>{modes[selectModeNumber].points}</Text>
                 </View>
             </View>   
-            <TouchableOpacity onPress={()=>{ playSoundPress();selectModeNumber<2&&setSelectModeNumber(selectModeNumber+1)}}>
+            <TouchableOpacity onPress={()=>{ playSoundPress(); selectModeNumber<2&&(setSelectModeNumber(selectModeNumber+1), dispatch(setSelectMode(selectModeNumber)))}}>
                 <AntDesign name='right' size={42} color="white" style={{marginLeft:40}}/>
             </TouchableOpacity>
           </Animated.View> 

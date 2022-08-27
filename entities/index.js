@@ -3,18 +3,19 @@ import Monkey from "../components/Monkey";
 import Obstacle from "../components/Obstacle";
 import { getPipeSizePosPair } from "../utils/random";
 
-export default restart = () => {
+export default restart = (mode) => {
     let engine = Matter.Engine.create({
         enableSleeping:false,
     })
 
     let world = engine.world
     world.gravity.y = 0.4;
-    const pipeSizePosA = getPipeSizePosPair(-300)
-    const pipeSizePosB = getPipeSizePosPair(300)
+    const pipeSizePosA = getPipeSizePosPair(-300, mode)
+    const pipeSizePosB = getPipeSizePosPair(300, mode)
 
     return {
-        physics: {engine, world},
+        physics: {engine, world},   
+        mode: {mode: mode}, 
         Monkey: Monkey(world, 'green', {x:50, y:200}, {height:40, width:40}),
 
         ObstacleTop1: Obstacle(world, 'ObstacleTop1', 'red', pipeSizePosA.pipeTop.pos, pipeSizePosA.pipeTop.size),
