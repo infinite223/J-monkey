@@ -2,15 +2,9 @@ import Matter from "matter-js"
 import { getPipeSizePosPair, getRandom } from "./utils/random";
 import { Dimensions, Vibration } from "react-native";
 import { Audio } from 'expo-av';
+import { playSoundPress } from "./utils/soundPress";
 
 const windowWidth  = Dimensions.get('window').width
-
-async function playSoundPress() {
-    const { sound } = await Audio.Sound.createAsync(
-       require('./assets/audio/press.mp3')
-    );
-    await sound.playAsync();
-}
 
 let points = 0, speed = -5;
 
@@ -33,7 +27,7 @@ const Physics = (entities, {touches, time, dispatch}) => {
             entities[`ObstacleTop${index}`].point = true
             dispatch({type: 'new_point'})
             points +=1;
-            playSoundPress()
+            playSoundPress(Audio)
         }
 
         if(entities[`ObstacleTop${index}`].body.bounds.max.x <= 0){

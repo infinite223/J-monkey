@@ -11,13 +11,8 @@ import { AntDesign } from 'react-native-vector-icons';
 import { setPointsInMode, setSelectMode, setSavedModes } from './slices/gameSlice';
 import { style } from './styles/gameStyle';
 import AsyncStorage  from '@react-native-async-storage/async-storage'
+import { playSoundPress } from './utils/soundPress'
 
-async function playSoundPress() {
-  const { sound } = await Audio.Sound.createAsync(
-     require('./assets/audio/press.mp3')
-  );
-  await sound.playAsync();
-}
 
 export default function Game() {
   const [running, setRunning] = useState(false)
@@ -62,10 +57,9 @@ export default function Game() {
         const jsonValue = await AsyncStorage.getItem('@storage_Key')
         if(jsonValue != null){
           dispatch(setSavedModes(JSON.parse(jsonValue)))
-          console.log(JSON.parse(jsonValue))
         }
       } catch(e) {
-        // error reading value
+        console.log(e)
       }
     }
     getModes()
@@ -74,7 +68,6 @@ export default function Game() {
   }, [])
 
   useEffect(()=> {
-    console.log(modes)
     storeModes()
   },[setPointsInMode()])
 
@@ -111,7 +104,7 @@ export default function Game() {
       >
       </GameEngine>
           <Animated.View style={[style.mainContainer, {opacity: fadeAnim, zIndex:running?-1:2}]}>
-            <TouchableOpacity onPress={()=>{ playSoundPress(); selectModeNumber>0&&(setSelectModeNumber(selectModeNumber-1),dispatch(setSelectMode(selectModeNumber)))}}>
+            <TouchableOpacity onPress={()=>{ selectModeNumber>0&&( playSoundPress(Audio), setSelectModeNumber(selectModeNumber-1),dispatch(setSelectMode(selectModeNumber)))}}>
                 <AntDesign name='left' size={42} color="white" style={{marginRight:40}}/>    
             </TouchableOpacity>
             <View style={{justifyContent:"center", alignItems:"center"}}>
@@ -124,7 +117,7 @@ export default function Game() {
                 <Text style={[style.scoreText, {color:modes[selectModeNumber].color}]}>{modes[selectModeNumber].points}</Text>
                 </View>
             </View>   
-            <TouchableOpacity onPress={()=>{ playSoundPress(); selectModeNumber<2&&(setSelectModeNumber(selectModeNumber+1), dispatch(setSelectMode(selectModeNumber)))}}>
+            <TouchableOpacity onPress={()=>{ selectModeNumber<2&&(playSoundPress(Audio), setSelectModeNumber(selectModeNumber+1), dispatch(setSelectMode(selectModeNumber)))}}>
                 <AntDesign name='right' size={42} color="white" style={{marginLeft:40}}/>
             </TouchableOpacity>
           </Animated.View> 
