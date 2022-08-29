@@ -19,6 +19,7 @@ export default function Game() {
   const [gameEngine, setGameEngine] = useState(null)
   const [points, setPoints] = useState(0)
   const [selectModeNumber, setSelectModeNumber] = useState(0)
+  const [background, setBackground] = useState('background.jpg')
 
   const modes = useSelector(selectMode)
   const dispatch = useDispatch()
@@ -75,7 +76,10 @@ export default function Game() {
   return (
     <ImageBackground 
         style={style.imageBackground}
-        source={require('./assets/background.jpg')}
+        source={selectModeNumber===0?require('./assets/background.jpg'):
+        selectModeNumber===1?require('./assets/background.jpg'):
+        require('./assets/background.jpg')
+      }
     > 
       {running && <Text style={style.scoreInGameText}> {points} </Text>}
       <GameEngine
