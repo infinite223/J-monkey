@@ -18,9 +18,9 @@ export default restart = (mode) => {
         mode: {mode: mode}, 
         Monkey: Monkey(world, 'green', {x:50, y:200}, {height:40, width:40}),
 
-        ObstacleTop1: Obstacle(world, 'ObstacleTop1', 'red', pipeSizePosA.pipeTop.pos, pipeSizePosA.pipeTop.size),
-        ObstacleBottom1: Obstacle(world, 'ObstacleBottom1', 'red', pipeSizePosA.pipeBottom.pos, pipeSizePosA.pipeBottom.size),
-        ObstacleTop2: Obstacle(world, 'ObstacleTop2', 'red', pipeSizePosB.pipeTop.pos, pipeSizePosB.pipeTop.size),
-        ObstacleBottom2: Obstacle(world, 'ObstacleBottom2', 'red', pipeSizePosB.pipeBottom.pos, pipeSizePosB.pipeBottom.size),
+        ObstacleTop1: Obstacle(mode, world, 'ObstacleTop1', 'red', pipeSizePosA.pipeTop.pos, pipeSizePosA.pipeTop.size),
+        ObstacleBottom1: Obstacle(mode, world, 'ObstacleBottom1', 'red', pipeSizePosA.pipeBottom.pos, pipeSizePosA.pipeBottom.size),
+        ObstacleTop2: Obstacle(mode, world, 'ObstacleTop2', 'red', pipeSizePosB.pipeTop.pos, pipeSizePosB.pipeTop.size),
+        ObstacleBottom2: Obstacle(mode, world, 'ObstacleBottom2', 'red', pipeSizePosB.pipeBottom.pos, pipeSizePosB.pipeBottom.size),
     }
 }

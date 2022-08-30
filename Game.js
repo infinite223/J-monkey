@@ -6,9 +6,8 @@ import entities from './entities';
 import Physics from './physics';
 import { Audio } from 'expo-av';
 import { useSelector, useDispatch } from 'react-redux';
-import { selectMode } from './slices/gameSlice';
 import { AntDesign } from 'react-native-vector-icons';
-import { setPointsInMode, setSelectMode, setSavedModes } from './slices/gameSlice';
+import { setPointsInMode, setSelectMode, setSavedModes, selectMode } from './slices/gameSlice';
 import { style } from './styles/gameStyle';
 import AsyncStorage  from '@react-native-async-storage/async-storage'
 import { playSoundPress } from './utils/soundPress'
