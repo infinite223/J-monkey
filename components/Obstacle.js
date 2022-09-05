@@ -11,8 +11,9 @@ const Obstacle = props => {
     const xBody = props.body.position.x - widthBody / 2
     const yBody = props.body.position.y - heightBody / 2
 
-    console.log(props.mode.obstacle)
-    const randomTreeSource = props.mode.obstacle[getRandom(0,2)]
+     console.log(props.mode.obstacle[1])
+
+    const randomTreeSource = props.randomTreeSource
 
     return (
         <Image   
@@ -21,15 +22,18 @@ const Obstacle = props => {
                 position:'absolute',
                 left:xBody,
                 top:yBody, 
-                height:heightBody
+                height:heightBody,
+                width:widthBody
               }
             }
-            source={require(`../assets/${props.mode.level}/${randomTreeSource}`)}
+            source={
+            require('../assets/Easy/treeEasy2.jpg')}
+         //    source={props.mode.obstacle[1]}
           />
     )
 }
 
-export default (world, label, color, pos, size) => {
+export default (mode, randomTree, world, label, color, pos, size) => {
   const initialObstacle = Matter.Bodies.rectangle(
     pos.x,
     pos.y,
@@ -40,6 +44,8 @@ export default (world, label, color, pos, size) => {
   
   Matter.World.add(world, initialObstacle)
   return {
+    mode,
+    randomTree,
     body: initialObstacle,
     color,
     pos,

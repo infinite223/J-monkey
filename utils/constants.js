@@ -2,11 +2,12 @@ export const gameModes = [
     {
         level:'Easy',
         color:'lightgreen',
-        select:true, points:0, 
+        select:true, 
+        points:0, 
         strokeRange: -5, 
-        obstacle: {min: 20, max: 40},
+        obstacleRange: {min: 20, max: 40},
         background:require('../assets/background.jpg'),
-        obstacle: ['treeEasy1.jpg', 'treeEasy2.jpg', 'treeEasy3.jpg']
+        obstacle: [require('../assets/Easy/treeEasy1.jpg'), require('../assets/Easy/treeEasy2.jpg'), require('../assets/Easy/treeEasy3.jpg')]
     },
     {
         level:'Medium', 
@@ -14,7 +15,7 @@ export const gameModes = [
         select:false, 
         points:0,  
         strokeRange: -6, 
-        obstacle: {min: 0, max: 30},
+        obstacleRange: {min: 0, max: 30},
         background:'background.jpg',
         obstacle: ['treeMedium1.jpg', 'treeMedium2.jpg', 'treeMedium3.jpg']
     },
@@ -24,7 +25,7 @@ export const gameModes = [
         select:false, 
         oints:0,  
         strokeRange: -6, 
-        obstacle: {min: -30, max: 10},
+        obstacleRange: {min: -30, max: 10},
         background:'background.jpg',
         obstacle: ['treeHard1.jpg', 'treeHard2.jpg', 'treeHard3.jpg']
     }
