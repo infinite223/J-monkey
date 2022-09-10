@@ -12,7 +12,6 @@ import { style } from './styles/gameStyle';
 import AsyncStorage  from '@react-native-async-storage/async-storage'
 import { playSoundPress } from './utils/soundPress'
 
-
 export default function Game() {
   const [running, setRunning] = useState(false)
   const [gameEngine, setGameEngine] = useState(null)
@@ -75,10 +74,7 @@ export default function Game() {
   return (
     <ImageBackground 
         style={style.imageBackground}
-        source={selectModeNumber===0?require('./assets/background.jpg'):
-        selectModeNumber===1?require('./assets/background.jpg'):
-        require('./assets/background.jpg')
-      }
+        source={require('./assets/background_1.jpg')}
     > 
       {running && <Text style={style.scoreInGameText}> {points} </Text>}
       <GameEngine

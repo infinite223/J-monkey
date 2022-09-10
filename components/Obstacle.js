@@ -11,10 +11,6 @@ const Obstacle = props => {
     const xBody = props.body.position.x - widthBody / 2
     const yBody = props.body.position.y - heightBody / 2
 
-     console.log(props.mode.obstacle[1])
-
-    const randomTreeSource = props.randomTreeSource
-
     return (
         <Image   
             style={{
