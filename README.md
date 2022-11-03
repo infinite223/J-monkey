@@ -1,5 +1,5 @@
-# Flappy-monkey
-Flappy-monkey is a simple mobile game.
+# J-monkey
+J-monkey is a simple mobile game.
 Inspired by the popular Flappy Bird game
 
 <h3>Technologies:</h3>
