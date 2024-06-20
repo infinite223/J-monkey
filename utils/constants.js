@@ -25,7 +25,7 @@ export const gameModes = [
   },
   {
     level: "Epic",
-    color: "#40006e",
+    color: "#aa00ff",
     select: false,
     points: 0,
     strokeRange: -7,

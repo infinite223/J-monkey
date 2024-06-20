@@ -89,7 +89,7 @@ export default function Game() {
   return (
     <ImageBackground
       style={style.imageBackground}
-      source={require("./assets/background_1.jpg")}
+      source={require("./assets/background_2.png")}
     >
       {running && <Text style={style.scoreInGameText}> {points} </Text>}
       <GameEngine
